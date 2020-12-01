@@ -512,12 +512,20 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	public void refresh() throws BeansException, IllegalStateException {
 		synchronized (this.startupShutdownMonitor) {
 			// Prepare this context for refreshing.
+			//1.设置容器的启动时间
+			//2.设置关闭状态为False
+			//3.设置活跃状态为True
+			//4.获取Environment对象，并加载当前系统属性值到Environment对象中
+			//5.最不监听器和事件的集合对象，默认为空的集合
 			prepareRefresh();
 
 			// Tell the subclass to refresh the internal bean factory.
+			//创建容器对象: DefaultListableBeanFactory
+			//加载BeanDefinition
 			ConfigurableListableBeanFactory beanFactory = obtainFreshBeanFactory();
 
 			// Prepare the bean factory for use in this context.
+			//完成BeanFactory某些初始化操作
 			prepareBeanFactory(beanFactory);
 
 			try {
@@ -525,12 +533,14 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 				postProcessBeanFactory(beanFactory);
 
 				// Invoke factory processors registered as beans in the context.
+				// 执行BeanFactoryPostProcessors
 				invokeBeanFactoryPostProcessors(beanFactory);
 
 				// Register bean processors that intercept bean creation.
 				registerBeanPostProcessors(beanFactory);
 
 				// Initialize message source for this context.
+				// 国际化
 				initMessageSource();
 
 				// Initialize event multicaster for this context.
@@ -592,6 +602,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 		}
 
 		// Initialize any placeholder property sources in the context environment
+		// 留给子类覆盖，初始化属性资源
 		initPropertySources();
 
 		// Validate that all properties marked as required are resolvable
@@ -600,6 +611,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 
 		// Allow for the collection of early ApplicationEvents,
 		// to be published once the multicaster is available...
+		// 创建刷新前的监听事件集合
 		this.earlyApplicationEvents = new LinkedHashSet<>();
 	}
 
@@ -619,6 +631,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * @see #getBeanFactory()
 	 */
 	protected ConfigurableListableBeanFactory obtainFreshBeanFactory() {
+		// 初始化BeanFactory，并进行Xml文件读取，并将得到的BeanFactory记录在当前实体的属性中
 		refreshBeanFactory();
 		return getBeanFactory();
 	}
@@ -679,7 +692,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
 	 * BeanPostProcessors etc in certain ApplicationContext implementations.
 	 * @param beanFactory the bean factory used by the application context
 	 */
-	protected void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
+	protected void  postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) {
 	}
 
 	/**

@@ -41,6 +41,8 @@ public class BeanInfoTests {
 		BeanWrapper bw = new BeanWrapperImpl(bean);
 		Integer value = new Integer(1);
 
+		System.out.println(bw.getPropertyDescriptor("value"));
+
 		bw.setPropertyValue("value", value);
 		assertEquals("value not set correctly", bean.getValue(), value);
 

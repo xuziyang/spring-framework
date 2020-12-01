@@ -151,7 +151,7 @@ public interface PropertyAccessor {
 	 */
 	void setPropertyValue(PropertyValue pv) throws BeansException;
 
-	/**
+	/**￿
 	 * Perform a batch update from a Map.
 	 * <p>Bulk updates from PropertyValues are more powerful: This method is
 	 * provided for convenience. Behavior will be identical to that of
